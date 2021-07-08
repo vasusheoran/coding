@@ -55,10 +55,46 @@ class TopologicalSort {
 
 class Solution
 {
+    static Stack<Integer> dfs(int i, ArrayList<ArrayList<Integer>> adj, boolean[] visited, Stack<Integer> st){
+
+        if(visited[i] == true){
+            return st;
+        }
+
+        visited[i] = true;
+
+        List<Integer> children = adj.get(i);
+        for (Integer ch : children) {
+            if(!visited[ch]){
+                dfs(ch, adj, visited, st);
+            }
+        }
+
+        st.push(i);
+        return st;
+    }
+
     //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
         // add your code here
-        return null;
+
+        Stack<Integer> st = new Stack<Integer>();
+        boolean []visited = new boolean[V];
+
+        for(int i = 0; i< V; i++){
+            if(!visited[i]){
+                dfs(i, adj, visited, st);
+            }
+        }
+
+        int result[] = new int[V];
+        int i = 0;
+
+        while(st.size() > 0){
+            result[i++] = st.pop();
+        }
+        
+        return result;
     }
 }
